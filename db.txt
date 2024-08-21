@@ -1,0 +1,25 @@
+docker ps
+docker exec -it <container_id_or_name> /bin/bash
+cd /usr/src/app
+python
+
+<python file>
+import sqlite3
+
+# Connect to the SQLite database file
+conn = sqlite3.connect('users.db')
+
+# Create a cursor object
+cursor = conn.cursor()
+
+# Execute SQL commands
+# For example:
+cursor.execute("SELECT * FROM user")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+
+# Close the connection
+conn.close()
+
+

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: order-processing
+  name: order-processing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: order-processing
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/microservices_network: "true"
+        io.kompose.service: order-processing
+    spec:
+      containers:
+        - env:
+            - name: PRODUCT_SERVICE_URL
+              value: "http://127.0.0.1:40572"  # Assuming "product_management" is the service name for the product management microservice
+          image: pes2ug21cs134chandana/order_processing:latest
+          name: order-processing-container
+          ports:
+            - containerPort: 5000
+          resources: {}
+      restartPolicy: Always
+status: {}
